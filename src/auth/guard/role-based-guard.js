@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-import { useMockedUser } from 'src/hooks/use-mocked-user';
+import { useAuthContext } from 'src/auth/hooks';
 
 import { ForbiddenIllustration } from 'src/assets/illustrations';
 
@@ -14,7 +14,7 @@ import { varBounce, MotionContainer } from 'src/components/animate';
 
 export default function RoleBasedGuard({ hasContent, roles, children, sx }) {
   // Logic here to get current user role
-  const { user } = useMockedUser();
+  const { user } = useAuthContext();
 
   // const currentRole = 'user';
   const currentRole = user?.role; // admin;
