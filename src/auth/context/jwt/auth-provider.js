@@ -106,7 +106,7 @@ export function AuthProvider({ children }) {
       password,
     };
 
-    const response = await axios.post(endpoints.auth.login, data);
+    const response = await axios.post('https://interview.m-inno.com/api/auth/local', data);
 
     const { jwt, user } = response.data;
 

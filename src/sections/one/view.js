@@ -28,7 +28,7 @@ export default function OneView() {
   const [sum, setSum] = useState(0)
 
   const fetchData = async () => {
-    const response = await axios.get(endpoints.financial.figures);
+    const response = await axios.get('https://interview.m-inno.com/api/figures');
     const { data } = response.data;
     initData(data);
   }
