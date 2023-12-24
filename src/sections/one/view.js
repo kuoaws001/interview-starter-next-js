@@ -6,9 +6,10 @@ import {
   Select, FormControl, InputLabel, OutlinedInput, MenuItem
 } from '@mui/material';
 
-import axios, { endpoints } from 'src/utils/axios';
+import axios from 'src/utils/axios';
 import { alpha } from '@mui/material/styles';
 import { useSettingsContext } from 'src/components/settings';
+import { setSession } from '../../auth/context/jwt/utils';
 
 // ----------------------------------------------------------------------
 
@@ -28,9 +29,21 @@ export default function OneView() {
   const [sum, setSum] = useState(0)
 
   const fetchData = async () => {
-    const response = await axios.get('https://interview.m-inno.com/api/figures');
-    const { data } = response.data;
-    initData(data);
+
+    axios.get('https://interview.m-inno.com/api/figures')
+      .then(res => {
+        const { data } = res.data;
+        initData(data);
+      })
+      .catch(error => {
+        if (error.response && error.response.status === 401) {
+          axios.post('https://interview.m-inno.com/api/token/refresh')
+            .then(res => {
+              setSession(res.data.jwt);
+              fetchData();
+            })
+        }
+      })
   }
 
   const initData = (data) => {
